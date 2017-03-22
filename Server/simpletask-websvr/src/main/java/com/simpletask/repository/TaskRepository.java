@@ -8,15 +8,16 @@ public interface TaskRepository {
 	/*
 	 * Return all the Tasks created by the specified user
 	 */
-	public List<Task> getAllTasksForUser(int userId);
+	public List<Task> getAllTasksForUser(long userId);
 	
 	/*
 	 * Return all the Tasks specified by user id and task group id
 	 */
-	public List<Task> getAllTasksForUserAndGroup(int userId, String groupId);
+	public List<Task> getAllTasksForUserAndGroup(long userId, String groupId);
 	
 	/*
 	 * Create a new Task 
 	 */
-	public Task createTask(int userId, String description);
+	public Task createTask(long userId, String description, String groupId, String dueTimeStr, int priority, String labels, 
+			String parentId, long owner);
 }

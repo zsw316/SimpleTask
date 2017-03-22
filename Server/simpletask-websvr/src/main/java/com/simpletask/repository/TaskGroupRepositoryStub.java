@@ -6,12 +6,15 @@ import java.util.Date;
 import java.util.List;
 
 import com.simpletask.model.TaskGroup;
+import com.simpletask.repository.TaskGroupRepository;
 
 public class TaskGroupRepositoryStub implements TaskGroupRepository {
 
 	private List<TaskGroup> taskGroups;
 	
-	public TaskGroupRepositoryStub() {
+	private static TaskGroupRepositoryStub uniqueInstance = null;
+	
+	private TaskGroupRepositoryStub() {
 		taskGroups = new ArrayList<TaskGroup>();
 		
 		TaskGroup group1 = new TaskGroup();
@@ -40,8 +43,16 @@ public class TaskGroupRepositoryStub implements TaskGroupRepository {
     	taskGroups.add(group2);
 	}
 	
+	public static TaskGroupRepositoryStub getInstance() {
+		if (uniqueInstance == null) {
+			uniqueInstance = new TaskGroupRepositoryStub();
+		}
+		
+		return uniqueInstance;
+	}
+	
 	@Override
-	public List<TaskGroup> getAllTaskGroupsForUser(int userId) {
+	public List<TaskGroup> getAllTaskGroupsForUser(long userId) {
 		List<TaskGroup> groupList = new ArrayList<TaskGroup>();
 		for (TaskGroup group:taskGroups) {
 			if (group.getCreatedBy() == userId) {
@@ -53,7 +64,7 @@ public class TaskGroupRepositoryStub implements TaskGroupRepository {
 	}
 
 	@Override
-	public TaskGroup createTaskGroup(int userId, String title, int importance, String labels) {
+	public TaskGroup createTaskGroup(long userId, String title, int importance, String labels) {
 		TaskGroup group = new TaskGroup();
 		Date createdDate = new Date();
 		String createdDateStr = new SimpleDateFormat("yyyyMMddHHmmss").format(createdDate);

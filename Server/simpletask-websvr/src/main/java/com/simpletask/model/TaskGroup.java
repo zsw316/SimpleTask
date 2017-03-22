@@ -2,6 +2,8 @@ package com.simpletask.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /*
  * 
  * CREATE TABLE `taskgroup` (
@@ -14,6 +16,7 @@ import java.util.Date;
   PRIMARY KEY (`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
+@XmlRootElement
 public class TaskGroup {
 	/*
 	 * Primary key, group Id

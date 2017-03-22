@@ -8,10 +8,10 @@ public interface TaskGroupRepository {
 	/*
 	 * Return all the Task Groups that the specified user created
 	 */
-	public List<TaskGroup> getAllTaskGroupsForUser(int userId);
+	public List<TaskGroup> getAllTaskGroupsForUser(long userId);
 	
 	/*
 	 * Create a new Task Group 
 	 */
-	public TaskGroup createTaskGroup(int userId, String title, int importance, String labels);
+	public TaskGroup createTaskGroup(long userId, String title, int importance, String labels);
 }

@@ -2,6 +2,8 @@ package com.simpletask.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /*
  * CREATE TABLE `task` (
   `task_id` varchar(45) NOT NULL,
@@ -18,6 +20,7 @@ import java.util.Date;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
  */
+@XmlRootElement
 public class Task {
 	/*
 	 * Primary key, the task Id 
