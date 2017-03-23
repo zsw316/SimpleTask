@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import com.simpletask.model.TaskGroup;
+import com.simpletask.repository.TaskGroupRepositoryImpl;
 import com.simpletask.repository.TaskGroupRepositoryStub;
 
 @Path("taskgroups")
@@ -28,7 +29,9 @@ public class TaskGroupResource {
 	public List<TaskGroup> getTaskGroupsForUser(@PathParam("userId") long userId) {
 		logger.debug(String.format("getTaskGroupsForUser: %d", userId));
 		
-		return TaskGroupRepositoryStub.getInstance().getAllTaskGroupsForUser(userId);
+		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
+		return repository.getAllTaskGroupsForUser(userId);
+		//return TaskGroupRepositoryStub.getInstance().getAllTaskGroupsForUser(userId);
 	}
 	
 	@PUT
@@ -40,6 +43,9 @@ public class TaskGroupResource {
 		logger.debug(String.format("createNewTaskGroup: userId: %d, title: %s, importance: %d, labels:%s ", 
 				userId, title, importance, labels));
 		
-		return TaskGroupRepositoryStub.getInstance().createTaskGroup(userId, title, importance, labels);
+		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
+		return repository.createTaskGroup(userId, title, importance, labels);
+		
+		//return TaskGroupRepositoryStub.getInstance().createTaskGroup(userId, title, importance, labels);
 	}
 }
