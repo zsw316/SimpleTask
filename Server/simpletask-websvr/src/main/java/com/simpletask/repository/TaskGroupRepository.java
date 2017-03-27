@@ -14,4 +14,9 @@ public interface TaskGroupRepository {
 	 * Create a new Task Group 
 	 */
 	public TaskGroup createTaskGroup(long userId, String title, int importance, String labels);
+	
+	/*
+	 * Delete Task Group
+	 */
+	public boolean deleteTaskGroup(long userId, String groupId);
 }

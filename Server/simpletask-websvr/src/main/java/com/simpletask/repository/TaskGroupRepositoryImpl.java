@@ -147,4 +147,49 @@ public class TaskGroupRepositoryImpl implements TaskGroupRepository {
 		return null;
 	}
 
+	@Override
+	public boolean deleteTaskGroup(long userId, String groupId) {
+		try {
+			dbConn = DataSource.getInstance().getConnection();
+		} catch (SQLException e) {
+			logger.error(String.format("getConnection failed, SQLException: %s",
+					e.getMessage()));
+			return false;
+		} catch (IOException e) {
+			logger.error(String.format("getConnection failed, IOException: %s",
+					e.getMessage()));
+			return false;
+		} catch (PropertyVetoException e) {
+			logger.error(String.format("getConnection failed, PropertyVetoException: %s",
+					e.getMessage()));
+			return false;
+		}
+		
+		Statement stmt = null;
+		
+		try {
+			stmt = dbConn.createStatement();
+			String deleteStr = String.format(
+					"DELETE From taskgroup WHERE group_id='%s' and created_by=%d",
+					groupId, userId);
+
+			stmt.executeUpdate(deleteStr);
+			return true;
+		} catch (SQLException ex) {
+			// handle any errors
+			logger.error(String.format("createTaskGroup failed, SQLException: %s SQLState:%s VendorError: %s",
+					ex.getMessage(), ex.getSQLState(), ex.getErrorCode()));
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException sqlEx) {
+				} // ignore
+
+				stmt = null;
+			}
+		}
+		
+		return false;
+	}
 }

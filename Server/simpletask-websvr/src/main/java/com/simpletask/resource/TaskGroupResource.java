@@ -48,4 +48,13 @@ public class TaskGroupResource {
 		
 		//return TaskGroupRepositoryStub.getInstance().createTaskGroup(userId, title, importance, labels);
 	}
+	
+	@PUT
+	@Path("/del")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public boolean deleteTaskGroup(@FormParam("userId") long userId, @FormParam("groupId") String groupId) {
+		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
+		return repository.deleteTaskGroup(userId, groupId);
+	}
 }

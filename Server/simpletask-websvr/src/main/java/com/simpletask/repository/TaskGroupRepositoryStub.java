@@ -79,4 +79,15 @@ public class TaskGroupRepositoryStub implements TaskGroupRepository {
 		return group;
 	}
 
+	@Override
+	public boolean deleteTaskGroup(long userId, String groupId) {
+		for (TaskGroup group:taskGroups) {
+			if (group.getCreatedBy() == userId && group.getGroupId().equalsIgnoreCase(groupId)) {
+				taskGroups.remove(group);
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
