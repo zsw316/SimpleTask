@@ -20,4 +20,9 @@ public interface TaskRepository {
 	 */
 	public Task createTask(long userId, String description, String groupId, String dueTimeStr, int priority, String labels, 
 			String parentId, long owner);
+	
+	/*
+	 * Delete a Task
+	 */
+	public boolean deleteTask(long userId, String taskId);
 }

@@ -114,4 +114,11 @@ public class TaskRepositoryStub implements TaskRepository {
 		return task;
 	}
 
+
+	@Override
+	public boolean deleteTask(long userId, String taskId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

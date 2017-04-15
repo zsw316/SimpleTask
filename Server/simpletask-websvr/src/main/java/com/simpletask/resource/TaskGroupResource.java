@@ -1,7 +1,5 @@
 package com.simpletask.resource;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -9,13 +7,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
 import com.simpletask.model.TaskGroup;
 import com.simpletask.repository.TaskGroupRepositoryImpl;
-import com.simpletask.repository.TaskGroupRepositoryStub;
+import com.simpletask.service.ServiceResult;
+import com.simpletask.service.TaskGroupServiceImpl;
 
 @Path("taskgroups")
 public class TaskGroupResource {
@@ -23,14 +23,15 @@ public class TaskGroupResource {
 	private Logger logger = Logger.getLogger(TaskGroupResource.class);
 	
 	@GET
-	@Path("/{userId}")
-	//@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<TaskGroup> getTaskGroupsForUser(@PathParam("userId") long userId) {
+	public ServiceResult getTaskGroupsForUser(@QueryParam("userId") long userId) {
 		logger.debug(String.format("getTaskGroupsForUser: %d", userId));
 		
-		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
-		return repository.getAllTaskGroupsForUser(userId);
+		TaskGroupServiceImpl service = new TaskGroupServiceImpl();
+		return service.getAllTaskGroupsForUser(userId);
+		
+//		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
+//		return repository.getAllTaskGroupsForUser(userId);
 		//return TaskGroupRepositoryStub.getInstance().getAllTaskGroupsForUser(userId);
 	}
 	
@@ -50,10 +51,10 @@ public class TaskGroupResource {
 	}
 	
 	@PUT
-	@Path("/del")
+	@Path("/{groupId}/del")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public boolean deleteTaskGroup(@FormParam("userId") long userId, @FormParam("groupId") String groupId) {
+	public boolean deleteTaskGroup(@PathParam("groupId") String groupId, @FormParam("userId") long userId) {
 		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
 		return repository.deleteTaskGroup(userId, groupId);
 	}

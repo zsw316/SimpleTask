@@ -12,7 +12,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class DataSource {
 
 	private static DataSource uniqueInstance = null;
-	static String DS_PROPERTIES_CONF_NAME = "c3p0.properties";
+	static String DS_PROPERTIES_CONF_NAME = "../../../c3p0.properties";
 	private ComboPooledDataSource cpds;
 	
 	private DataSource() throws IOException, SQLException, PropertyVetoException {
