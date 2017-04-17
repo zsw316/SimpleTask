@@ -46,6 +46,8 @@ public class TaskGroupRepositoryImpl implements TaskGroupRepository {
 			stmt = dbConn.createStatement();
 			String queryStr = String.format(
 					"SELECT group_id, title, created_by, created_date, importance, labels FROM taskgroup WHERE created_by=%d", userId);
+			
+			logger.error(String.format("Exec sql: %s", queryStr));
 			rs = stmt.executeQuery(queryStr);
 			if (rs != null) {
 				List<TaskGroup> groupList = new ArrayList<TaskGroup>();
@@ -59,6 +61,10 @@ public class TaskGroupRepositoryImpl implements TaskGroupRepository {
 					group.setImportance(rs.getInt(5));
 					group.setLabels(rs.getString(6));
 					groupList.add(group);
+					
+					logger.error(String.format("Group info: Id: %s, Title: %s, CreatedBy: %d, CreatedDate: %s, Importance: %d, Labels: %s", 
+							group.getGroupId(), group.getTitle(), group.getCreatedBy(), new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(group.getCreatedDate()), 
+							group.getImportance(), group.getLabels()));
 				}
 
 				return groupList;

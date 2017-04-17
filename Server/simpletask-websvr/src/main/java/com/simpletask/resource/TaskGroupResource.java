@@ -12,9 +12,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
 
-import com.simpletask.model.TaskGroup;
-import com.simpletask.repository.TaskGroupRepositoryImpl;
 import com.simpletask.service.ServiceResult;
+import com.simpletask.service.TaskGroupService;
 import com.simpletask.service.TaskGroupServiceImpl;
 
 @Path("taskgroups")
@@ -27,35 +26,29 @@ public class TaskGroupResource {
 	public ServiceResult getTaskGroupsForUser(@QueryParam("userId") long userId) {
 		logger.debug(String.format("getTaskGroupsForUser: %d", userId));
 		
-		TaskGroupServiceImpl service = new TaskGroupServiceImpl();
+		TaskGroupService service = new TaskGroupServiceImpl();
 		return service.getAllTaskGroupsForUser(userId);
-		
-//		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
-//		return repository.getAllTaskGroupsForUser(userId);
-		//return TaskGroupRepositoryStub.getInstance().getAllTaskGroupsForUser(userId);
 	}
 	
 	@PUT
 	@Path("/new")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public TaskGroup createNewTaskGroup(@FormParam("userId") long userId, @FormParam("title") String title, 
+	@Produces(MediaType.APPLICATION_JSON)
+	public ServiceResult createNewTaskGroup(@FormParam("userId") long userId, @FormParam("title") String title, 
 			@FormParam("importance") int importance, @FormParam("labels") String labels) {
 		logger.debug(String.format("createNewTaskGroup: userId: %d, title: %s, importance: %d, labels:%s ", 
 				userId, title, importance, labels));
 		
-		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
-		return repository.createTaskGroup(userId, title, importance, labels);
-		
-		//return TaskGroupRepositoryStub.getInstance().createTaskGroup(userId, title, importance, labels);
+		TaskGroupService service = new TaskGroupServiceImpl();
+		return service.createTaskGroup(userId, title, importance, labels);
 	}
-	
+	TaskGroupService service = new TaskGroupServiceImpl();
 	@PUT
 	@Path("/{groupId}/del")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public boolean deleteTaskGroup(@PathParam("groupId") String groupId, @FormParam("userId") long userId) {
-		TaskGroupRepositoryImpl repository = new TaskGroupRepositoryImpl();
-		return repository.deleteTaskGroup(userId, groupId);
+	@Produces(MediaType.APPLICATION_JSON)
+	public ServiceResult deleteTaskGroup(@PathParam("groupId") String groupId, @FormParam("userId") long userId) {
+		TaskGroupService service = new TaskGroupServiceImpl();
+		return service.deleteTaskGroup(userId, groupId);
 	}
 }

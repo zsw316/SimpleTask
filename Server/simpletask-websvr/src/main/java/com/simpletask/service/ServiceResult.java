@@ -8,7 +8,7 @@ public class ServiceResult {
 	/*
 	 * ResultCode indicates SUCCESS or FAILED
 	 */
-	private ResultCode code;
+	private ResultCode result;
 	
 	/*
 	 * Represent the error information
@@ -20,18 +20,21 @@ public class ServiceResult {
 	 */
 	private String userData;
 	
-	public ResultCode getCode() {
-		return code;
+	public ResultCode getResult() {
+		return result;
 	}
-	public void setCode(ResultCode code) {
-		this.code = code;
+	
+	public void setResult(ResultCode code) {
+		this.result = code;
 	}
+	
 	public ServiceError getError() {
 		return error;
 	}
 	public void setError(ServiceError error) {
 		this.error = error;
 	}
+	
 	public String getUserData() {
 		return userData;
 	}
@@ -39,5 +42,10 @@ public class ServiceResult {
 		this.userData = userData;
 	}
 	
+	public void buildResult(ResultCode code, ServiceError error, String userData) {
+		setResult(code);
+		setError(error);
+		setUserData(userData);
+	}
 	
 }

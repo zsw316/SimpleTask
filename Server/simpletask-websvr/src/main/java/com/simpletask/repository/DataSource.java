@@ -1,8 +1,8 @@
 package com.simpletask.repository;
 
 import java.beans.PropertyVetoException;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -12,7 +12,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class DataSource {
 
 	private static DataSource uniqueInstance = null;
-	static String DS_PROPERTIES_CONF_NAME = "../../../c3p0.properties";
+	static String DS_PROPERTIES_CONF_NAME = "/c3p0.properties";
 	private ComboPooledDataSource cpds;
 	
 	private DataSource() throws IOException, SQLException, PropertyVetoException {
@@ -20,7 +20,7 @@ public class DataSource {
         
         // Load configuration from properties file
         Properties pps = new Properties();
-        pps.load(new FileInputStream(DS_PROPERTIES_CONF_NAME));
+        pps.load(getClass().getResourceAsStream(DS_PROPERTIES_CONF_NAME));
         
         if(pps.containsKey("c3p0.driverClass") && pps.containsKey("c3p0.jdbcUrl") 
         		&& pps.containsKey("c3p0.user") && pps.containsKey("c3p0.password")) { // Mandatory configure items
@@ -30,7 +30,7 @@ public class DataSource {
             cpds.setPassword(pps.getProperty("c3p0.password"));
             
             if (pps.containsKey("c3p0.acquireIncrement")) {
-            	cpds.setAcquireIncrement(Integer.parseInt(pps.getProperty("c3p0.driverClass")));
+            	cpds.setAcquireIncrement(Integer.parseInt(pps.getProperty("c3p0.acquireIncrement")));
             }
             
             if (pps.containsKey("c3p0.minPoolSize")) {
@@ -46,7 +46,7 @@ public class DataSource {
             } 
         } 
         else { // Set default config
-        	cpds.setDriverClass("om.mysql.jdbc.Driver "); //loads the jdbc driver
+        	cpds.setDriverClass("com.mysql.jdbc.Driver "); //loads the jdbc driver
             cpds.setJdbcUrl("jdbc:mysql://localhost:3306/easy_todo?useSSL=false&serverTimezone=UTC");
             cpds.setUser("dbuser");
             cpds.setPassword("shwei.zhang2011");
